@@ -26,6 +26,7 @@ public class UserService {
     public LoginResponse register(RegisterRequest request) {
         UserEntity user = new UserEntity();
         user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setDisplayName(request.getDisplayName());
         user.setRoleCode(request.getRoleCode());
