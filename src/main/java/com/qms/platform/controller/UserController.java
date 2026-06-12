@@ -20,6 +20,20 @@ public class UserController {
                     UserDto dto = new UserDto();
                     dto.setUsername(user.getUsername());
                     dto.setEmail(user.getEmail());
+                    dto.setDisplayName(user.getDisplayName());
+                    return ResponseEntity.ok(dto);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> {
+                    UserDto dto = new UserDto();
+                    dto.setUsername(user.getUsername());
+                    dto.setEmail(user.getEmail());
+                    dto.setDisplayName(user.getDisplayName());
                     return ResponseEntity.ok(dto);
                 })
                 .orElse(ResponseEntity.notFound().build());

@@ -6,6 +6,7 @@ import com.qms.platform.dto.RegisterRequest;
 import com.qms.platform.entity.UserEntity;
 import com.qms.platform.repository.UserRepository;
 import com.qms.platform.security.JwtTokenProvider;
+import com.qms.platform.exception.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +25,13 @@ public class UserService {
 
     @Transactional
     public LoginResponse register(RegisterRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new BadRequestException("Username is already taken.");
+        }
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new BadRequestException("Email is already registered.");
+        }
+
         UserEntity user = new UserEntity();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
